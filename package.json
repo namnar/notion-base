@@ -1,0 +1,25 @@
+{
+  "name": "notion-base",
+  "version": "1.0.0",
+  "description": "Study assistant that interfaces with Notion's databases",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/namnar/notion-base.git"
+  },
+  "keywords": [
+    "notion"
+  ],
+  "author": "Yunhyeong Na",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/namnar/notion-base/issues"
+  },
+  "homepage": "https://github.com/namnar/notion-base#readme",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
