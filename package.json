@@ -20,6 +20,8 @@
   },
   "homepage": "https://github.com/namnar/notion-base#readme",
   "dependencies": {
+    "@notionhq/client": "^2.2.15",
+    "dotenv": "^16.4.7",
     "express": "^4.21.2"
   }
 }
