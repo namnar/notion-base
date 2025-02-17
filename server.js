@@ -15,7 +15,19 @@ app.get("/", function (request, response) {
   })
 
 
-//query
+/**
+ * request body needs this data:
+ * {
+ *   database_id: string,
+ *   database_filter: {
+ *     connector: [ 
+ *       { property: 'Name', condition: '...' },
+ *       { property: 'OtherProp', condition: '...' }
+ *     ]
+ *   },
+ *   req_properties: ['Name', 'AnotherProperty']
+ * }
+ */
 app.post("/databases", async (req, res)=>{
     // Destructure from req.body
     const { database_id, database_filter, req_properties } = req.body;
@@ -45,7 +57,7 @@ app.post("/databases", async (req, res)=>{
                 reqProperties.forEach((property)=>{
                     extractedProperties[property] = page.properties[property];
                 })
-                pageList.push(extractedProperties);
+                pageList.push(extractedProperties); //note: raw data will need to be parsed further client-side
             })
             //update pagination
             hasMore = response.has_more;
