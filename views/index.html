@@ -24,10 +24,6 @@
       <p>
         Retrieve data from your Notion database.
       </p>
-      <p>
-        Open the Notion page set in your environment variables to see workspace
-        updates in real-time. :)
-      </p>
       <table>
         <tr>
           <th>Step</th>
@@ -35,59 +31,20 @@
         </tr>
         <tr>
           <td>
-            <h3>1. Create a new database</h3>
+            <h3>Select a database</h3>
             <form id="databaseForm">
               <label for="dbName">Database name</label>
-              <input type="text" id="dbName" />
+              <select id="dbName">
+                <option value="Vocabulary">Vocabulary</option>
+                <option value="MethodsWebDev">Methods: Web Dev</option>
+                <option value="MethodsPython">Methods: Python</option>
+              </select>
+              <!-- <input type="text" id="dbName" /> -->
               <input type="submit" />
             </form>
           </td>
           <!-- The database form response will be appended here after submitting it -->
           <td id="dbResponse"></td>
-        </tr>
-        <tr>
-          <td>
-            <h3>2. Add a page to the database</h3>
-            <form id="pageForm">
-              <label for="newPageDB">Parent DB ID</label>
-              <input type="text" id="newPageDB" />
-              <label for="newPageName">New page name</label>
-              <input type="text" id="newPageName" />
-              <label for="header">Header 1</label>
-              <input type="text" id="header" />
-              <input type="submit" />
-            </form>
-          </td>
-          <!-- The page form response will be appended here after submitting it -->
-          <td id="pageResponse"></td>
-        </tr>
-        <tr>
-          <td>
-            <h3>3. Add content to the page</h3>
-            <form id="blocksForm">
-              <label for="pageID">Page ID</label>
-              <input type="text" id="pageID" />
-              <label for="content">Content</label>
-              <input type="text" id="content" />
-              <input type="submit" />
-            </form>
-          </td>
-          <!-- The page content/blocks form response will be appended here after submitting it -->
-          <td id="blocksResponse"></td>
-        </tr>
-        <tr>
-          <td>
-            <h3>4. Add a comment to the content</h3>
-            <form id="commentForm">
-              <label for="pageIDComment">Page ID</label>
-              <input type="text" id="pageIDComment" />
-              <label for="comment">Comment</label>
-              <input type="text" id="comment" />
-              <input type="submit" />
-            </form>
-          </td>
-          <!-- The comment form response will be appended here after submitting it -->
-          <td id="commentResponse"></td>
         </tr>
       </table>
     </main>
