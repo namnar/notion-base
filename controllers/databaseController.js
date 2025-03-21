@@ -55,7 +55,7 @@ async function handleDatabaseQuery(req, res){
         };
         pageList = await paginateQuery(queryBody); //query and paginate queryBody from Notion server 
 
-        // Process and filter the data
+        // Process and filter the data based on specified req_properties
         let extractedData = pageList.map(page => {
             let extractedProperties = {};
             req_properties.forEach(property => {    //req_properties is the specified list of properties (columns) the caller wants returned. The database has a lot of columns
@@ -70,6 +70,7 @@ async function handleDatabaseQuery(req, res){
         console.error("Error querying Notion database: ", error);
         return res.json({message: "Error has occurred.", error: error});
     }
+};
 
 
-}
+module.exports = handleDatabaseQuery;
