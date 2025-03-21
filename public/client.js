@@ -4,143 +4,59 @@
  * 1. DOM ELEMENT REFERENCES
  **************************************************************/
 
-// Forms
-const dbForm = document.getElementById("databaseForm")
-const pageForm = document.getElementById("pageForm")
-const blocksForm = document.getElementById("blocksForm")
-const commentForm = document.getElementById("commentForm")
-
-// Sections to display API responses
-const dbResponseEl = document.getElementById("dbResponse")
-const pageResponseEl = document.getElementById("pageResponse")
-const blocksResponseEl = document.getElementById("blocksResponse")
-const commentResponseEl = document.getElementById("commentResponse")
+// Document elements
+const dbForm = document.getElementById("databaseForm");
+const dbResponseEl = document.getElementById("dbResponse");
 
 /**************************************************************
  * 2. HELPER FUNCTIONS
  **************************************************************/
 
-// Create and return a <p> tag with given text
-const createParagraph = (text) => {
-  const p = document.createElement("p")
-  p.textContent = text
-  return p
-}
+// Appends the API response to the UI
+const appendApiResponse = function (apiResponse, el) {
+  console.log(apiResponse);
 
-// Create and return an <a> tag with a given URL
-const createLink = (url) => {
-  const a = document.createElement("a")
-  a.href = url
-  a.innerText = url
-  return a
-}
+  // Add success message to UI
+  const newParagraphSuccessMsg = document.createElement("p");
+  newParagraphSuccessMsg.textContent = "Result: " + apiResponse.message;
+  el.appendChild(newParagraphSuccessMsg);
+  // See browser console for more information
+  if (apiResponse.message === "error") return;
 
-// Display a generic API response (e.g. for databases, pages, comments)
-const showApiResultOnPage = (apiResponse, targetElement) => {
-  console.log(apiResponse)
-
-  targetElement.appendChild(createParagraph("Result: " + apiResponse.message))
-
-  if (apiResponse.message === "error") return
-
-  targetElement.appendChild(createParagraph("ID: " + apiResponse.data.id))
+  // Add ID of Notion item (db, page, comment) to UI
+  const newParagraphId = document.createElement("p");
+  newParagraphId.textContent = "ID: " + apiResponse.data.id;
+  el.appendChild(newParagraphId);
 
   if (apiResponse.data.url) {
-    targetElement.appendChild(createLink(apiResponse.data.url))
+    const newAnchorTag = document.createElement("a");
+    newAnchorTag.setAttribute("href", apiResponse.data.url);
+    newAnchorTag.innerText = apiResponse.data.url;
+    el.appendChild(newAnchorTag);
   }
 }
 
-// Display a blocks-specific API response
-const showBlocksResultOnPage = (apiResponse, targetElement) => {
-  console.log(apiResponse)
 
-  targetElement.appendChild(createParagraph("Result: " + apiResponse.message))
+// Attach submit event to dbForm
+dbForm.onsubmit = async function (event) {
+  event.preventDefault();
+  const dbName = event.target.dbName.value
 
-  if (apiResponse.message === "error") return
+  //match name to database_id
+  //match name to filters
+  //match name to req_properties
 
-  const firstBlockId = apiResponse.data.results[0]?.id
-  if (firstBlockId) {
-    targetElement.appendChild(createParagraph("ID: " + firstBlockId))
-  }
-}
 
-/**************************************************************
- * 3. FORM EVENT HANDLERS
- **************************************************************/
+  const body = JSON.stringify({ dbName });
 
-// Handle database creation form submission
-dbForm.onsubmit = async (event) => {
-  event.preventDefault()
-
-  const databaseName = event.target.dbName.value
-  const body = JSON.stringify({ dbName: databaseName })
-
-  const response = await fetch("/databases", {
+  const newDBResponse = await fetch("/databases/methods/", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body,
-  })
+  });
+  const newDBData = newDBResponse.json();
+  console.log('finished await');
+  console.log(newDBData);
 
-  const data = await response.json()
-  showApiResultOnPage(data, dbResponseEl)
-}
-
-// Handle new page creation form submission
-pageForm.onsubmit = async (event) => {
-  event.preventDefault()
-
-  const databaseID = event.target.newPageDB.value
-  const pageName = event.target.newPageName.value
-  const headerText = event.target.header.value
-
-  const body = JSON.stringify({
-    dbID: databaseID,
-    pageName,
-    header: headerText,
-  })
-
-  const response = await fetch("/pages", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body,
-  })
-
-  const data = await response.json()
-  showApiResultOnPage(data, pageResponseEl)
-}
-
-// Handle adding blocks to a page
-blocksForm.onsubmit = async (event) => {
-  event.preventDefault()
-
-  const pageID = event.target.pageID.value
-  const content = event.target.content.value
-  const body = JSON.stringify({ pageID, content })
-
-  const response = await fetch("/blocks", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body,
-  })
-
-  const data = await response.json()
-  showBlocksResultOnPage(data, blocksResponseEl)
-}
-
-// Handle adding comments to a page
-commentForm.onsubmit = async (event) => {
-  event.preventDefault()
-
-  const pageID = event.target.pageIDComment.value
-  const comment = event.target.comment.value
-  const body = JSON.stringify({ pageID, comment })
-
-  const response = await fetch("/comments", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body,
-  })
-
-  const data = await response.json()
-  showApiResultOnPage(data, commentResponseEl)
+  // appendApiResponse(newDBData, dbResponseEl)
 }
