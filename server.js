@@ -38,7 +38,7 @@ app.get("/", function (request, response) {
 
 app.post("/databases/methods/", async (req, res) => {
     const viewDictionary = {
-        MethodsWebDev: {
+        MethodsWebDev: { //the view 
             or: [
                 {
                     property: 'Language',
@@ -74,10 +74,15 @@ app.post("/databases/methods/", async (req, res) => {
         },
         MethodsPython: {
             property: 'Language',
-            rich_text: {
-                equals: 'Python'
+            rollup: {
+                any: {
+                    rich_text: {
+                        equals: 'Python'
+                    }
+                }
             }
-        }
+
+        },
     };
     const queryBody = {
         database_id: process.env.METHODS_DATABASE,
