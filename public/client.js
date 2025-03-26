@@ -1,5 +1,6 @@
 // This file is run by the browser each time your view template is loaded
 
+
 /**************************************************************
  * 1. DOM ELEMENT REFERENCES
  **************************************************************/
@@ -11,6 +12,9 @@ const dbResponseEl = document.getElementById("dbResponse");
 /**************************************************************
  * 2. HELPER FUNCTIONS
  **************************************************************/
+
+const req_ids = {Vocabulary: ['Name', 'Explanation', 'Link', 'Category'], MethodsWebDev: ['Name', 'Explanation', 'Link', 'Language', 'Problems'], MethodsPython: ['Name', 'Explanation', 'Link', 'Language', 'Problems']}
+
 
 // Appends the API response to the UI
 const appendApiResponse = function (apiResponse, el) {
@@ -40,21 +44,24 @@ const appendApiResponse = function (apiResponse, el) {
 // Attach submit event to dbForm
 dbForm.onsubmit = async function (event) {
   event.preventDefault();
-  const dbName = event.target.dbName.value
+  const dbName = event.target.dbName.value;
 
-  //match name to database_id
-  //match name to filters
+  //--match name to filters---
   //match name to req_properties
+  const reqP = req_ids[dbName];
 
 
-  const body = JSON.stringify({ dbName });
-
-  const newDBResponse = await fetch("/databases/methods/", {
+  const body = JSON.stringify({
+    dbName: dbName,
+    req_properties: reqP,
+  });
+  
+  const newDBResponse = await fetch("/databases/methods", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body,
   });
-  const newDBData = newDBResponse.json();
+  const newDBData = await newDBResponse.json();
   console.log('finished await');
   console.log(newDBData);
 
