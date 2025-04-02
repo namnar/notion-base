@@ -13,7 +13,7 @@ const dbResponseEl = document.getElementById("dbResponse");
  * 2. HELPER FUNCTIONS
  **************************************************************/
 
-const req_ids = {Vocabulary: ['Name', 'Explanation', 'Link', 'Category'], MethodsWebDev: ['Name', 'Explanation', 'Link', 'Language', 'Problems'], MethodsPython: ['Name', 'Explanation', 'Link', 'Language', 'Problems']}
+const req_ids = {Vocabulary: ['Name', 'Explanation', 'Link', 'Category'], MethodsWebDev: ['Name', 'Explanation', 'Link', 'Modules', 'Language', 'Problems'], MethodsPython: ['Name', 'Explanation', 'Link', 'Modules', 'Language', 'Problems']}
 
 
 // Appends the API response to the UI

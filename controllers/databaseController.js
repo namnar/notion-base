@@ -5,7 +5,7 @@ const notion = require('../config/notionClient');
 // matches database names to Notion database IDs
 const db_ids = {Vocabulary: process.env.VOCAB_ID, MethodsWebDev: process.env.METHODS_ID, MethodsPython: process.env.METHODS_ID};
 
-// View configuration for different databases
+// matches different database names to their corresponding view configurations (filters)
 const ViewDictionary = {
     MethodsWebDev: { //Queries methods database for entries related to web development (JS, HTML, CSS)
         or: [
@@ -13,7 +13,7 @@ const ViewDictionary = {
                 property: 'Language',
                 rollup: {
                     any: {
-                        rich_text: {equals: 'Javascript'}
+                        select: {equals: 'Javascript'}
                     }
                 }
             },
@@ -21,7 +21,7 @@ const ViewDictionary = {
                 property: 'Language',
                 rollup: {
                     any: {
-                        rich_text: {equals: 'HTML'}
+                        select: {equals: 'HTML'}
                     }
                 }
             },
@@ -29,24 +29,21 @@ const ViewDictionary = {
                 property: 'Language',
                 rollup: {
                     any: {
-                        rich_text: {equals: 'CSS'}
+                        select: {equals: 'CSS'}
                     }
                 }
             },
         ]
     },
-    // MethodsPython: { //Queries methods database for entries related to Python
-    //     property: 'Language',
-    //     rollup: {
-    //         any: {
-    //             rich_text: {equals: 'Python'}
-    //         }
-    //     },
-    // }
-    MethodsPython: { //Queries methods database for entries related to Python
-        property: 'Link',
-        rich_text  : {equals: 'bobbybob.com'}
-    },
+    MethodsPython : {
+        property: "Language",
+        rollup: {
+          any: {
+            select: { equals: "Python" }
+          }
+        }
+      },
+      
 };
 
 
@@ -58,7 +55,7 @@ async function handleDatabaseQuery(req, res){
     try{
         const queryBody = {
             database_id: db_ids[dbName],
-            filter: ViewDictionary[dbName] || {}, //defaults to no filter if none is found
+            filter: ViewDictionary[dbName] || {property: 'Name', rich_text: {is_not_empty: true}}, //defaults to no filter if none is found
             page_size: 100, //default page size
         };
 
