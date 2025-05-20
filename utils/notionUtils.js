@@ -34,8 +34,19 @@ async function paginateQuery(body){
  * @param {Object} propertyValue - The Notion property value to flatten
  * @returns {string|null} The flattened value or null if not found
  */
-function flattenPropertyValue(propertyValue) {
+async function flattenPropertyValue(propertyValue) {
     if (!propertyValue) return null;
+
+    //special case
+    if (propertyValue.relation){
+        const relationIds = propertyValue.relation.map(r => r.id);
+        const titles = await getRelationTitles(relationIds);
+        
+        return propertyValue.relation.map(relation => ({
+            id: relation.id,
+            title: titles[relation.id]
+        }));
+    }
     
     if (propertyValue.title) {
         return propertyValue.title[0]?.text?.content || null;
@@ -58,6 +69,16 @@ function flattenPropertyValue(propertyValue) {
     if (propertyValue.checkbox) {
         return propertyValue.checkbox.toString();
     }
+    if (propertyValue.relation) {
+        return propertyValue.relation.map(relation => ({
+            id: relation.id,
+            title: relation.title?.[0]?.text?.content || relation.name || null
+        }));
+    }
+    //rollup
+
+    //special cases where the property value is a reference to another entry
+    //special case where the property value is an array (of possibly references)
     
     return propertyValue;
 }
@@ -101,6 +122,24 @@ function flattenNotionProperties(properties, requiredProperties) {
         }
     });
     return result;
+}
+
+
+// Add this function before flattenPropertyValue
+async function getRelationTitles(relationIds) {
+    const titles = {};
+    for (const id of relationIds) {
+        try {
+            const page = await notion.pages.retrieve({ page_id: id });
+            titles[id] = page.properties.Name?.title?.[0]?.text?.content || 
+                        page.properties.Name?.rich_text?.[0]?.text?.content || 
+                        null;
+        } catch (error) {
+            console.error(`Error fetching title for relation ${id}:`, error);
+            titles[id] = null;
+        }
+    }
+    return titles;
 }
 
 // Export all utility functions
