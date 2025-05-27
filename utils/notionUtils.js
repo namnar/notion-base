@@ -75,8 +75,10 @@ async function flattenPropertyValue(propertyValue) {
             title: relation.title?.[0]?.text?.content || relation.name || null
         }));
     }
-    //rollup
-
+    if (propertyValue.rollup) {
+        const selectData = propertyValue.rollup.array[0];
+        return flattenPropertyValue(selectData);
+    }
     //special cases where the property value is a reference to another entry
     //special case where the property value is an array (of possibly references)
     
