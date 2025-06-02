@@ -4,7 +4,8 @@
   "description": "Study assistant that interfaces with Notion's databases",
   "main": "index.js",
   "scripts": {
-    "test": "node index.js"
+    "test": "node index.js",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +21,13 @@
   },
   "homepage": "https://github.com/namnar/notion-base#readme",
   "dependencies": {
+    "@notionhq/client": "^2.2.15",
+    "better-sqlite3": "^11.10.0",
+    "dotenv": "^16.4.7",
     "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "eslint": "^9.28.0",
+    "prettier": "^3.5.3"
   }
 }

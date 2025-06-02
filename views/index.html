@@ -1,0 +1,52 @@
+<!-- served from your routes in server.js -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Notion internal integration example" />
+
+    <title>Notion integration demo</title>
+    <!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="/style.css" />
+
+    <!-- import the webpage's client-side javascript file -->
+    <script src="/client.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Notion internal integration demo</h1>
+    </header>
+
+    <main>
+      <h2>Goals</h2>
+      <p>
+        Retrieve data from your Notion database.
+      </p>
+      <table>
+        <tr>
+          <th>Step</th>
+          <th>Response</th>
+        </tr>
+        <tr>
+          <td>
+            <h3>Select a database</h3>
+            <form id="databaseForm">
+              <label for="dbName">Database name</label>
+              <select id="dbName">
+                <option value="Vocabulary">Vocabulary</option>
+                <option value="MethodsWebDev">Methods: Web Dev</option>
+                <option value="MethodsPython">Methods: Python</option>
+              </select>
+              <!-- <input type="text" id="dbName" /> -->
+              <input type="submit" />
+            </form>
+          </td>
+          <!-- The database form response will be appended here after submitting it -->
+          <td id="dbResponse"></td>
+        </tr>
+      </table>
+    </main>
+  </body>
+</html>
