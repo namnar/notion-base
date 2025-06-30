@@ -26,7 +26,7 @@ CREATE TABLE attributes (
     description TEXT
 );
 
-CREATE TABLE values (
+CREATE TABLE attribute_values (
     value_content varchar(250),
     entity_id varchar(50) NOT NULL,
     attribute_id varchar(50) NOT NULL,
@@ -35,6 +35,6 @@ CREATE TABLE values (
     FOREIGN KEY (attribute_id) REFERENCES attributes(id)
 );
 
-CREATE INDEX idx_values_entity ON values(entity_id);
-CREATE INDEX idx_values_attribute ON values(attribute_id);
+CREATE INDEX idx_values_entity ON attribute_values(entity_id);
+CREATE INDEX idx_values_attribute ON attribute_values(attribute_id);
 CREATE INDEX idx_entities_last_synced ON entities (last_synced);
