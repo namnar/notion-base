@@ -24,29 +24,52 @@
       <p>
         Retrieve data from your Notion database.
       </p>
-      <table>
-        <tr>
-          <th>Step</th>
-          <th>Response</th>
-        </tr>
-        <tr>
-          <td>
-            <h3>Select a database</h3>
-            <form id="databaseForm">
+      <div class="container">
+        <div class="form-group">
+          <h3>Select a database</h3>
+          <form id="databaseForm">
+            <div class="form-item">
               <label for="dbName">Database name</label>
               <select id="dbName">
                 <option value="Vocabulary">Vocabulary</option>
                 <option value="MethodsWebDev">Methods: Web Dev</option>
                 <option value="MethodsPython">Methods: Python</option>
               </select>
-              <!-- <input type="text" id="dbName" /> -->
-              <input type="submit" />
-            </form>
-          </td>
+            </div>
+            <div class="form-item">
+              <input type="submit" value="Submit" />
+            </div>
+          </form>
+        </div>
+
+        <div class="form-group">
+          <form id="databaseTest">
+            <div class="form-item">
+              <label for="databaseId">Database ID</label>
+              <input type="text" id="databaseId" />
+            </div>
+            <div class="form-item">
+              <label for="testQuery">Test query</label>
+              <select id="testQuery">
+                <option value="getPages">Get pages</option>
+                <option value="getSinglePage">Get single page</option>
+                <option value="getDatabase">Get database info</option>
+              </select>
+            </div>
+            <div class="form-item">
+              <label for="testFilter">Filter</label>
+              <textarea id="testFilter" rows="5"></textarea>
+            </div>
+            <div class="form-item">
+              <input type="submit" value="Submit" />
+            </div>
+          </form>
+        </div>
+
+        <div class="response-area" id="dbResponse">
           <!-- The database form response will be appended here after submitting it -->
-          <td id="dbResponse"></td>
-        </tr>
-      </table>
+        </div>
+      </div>
     </main>
   </body>
 </html>

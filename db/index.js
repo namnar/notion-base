@@ -13,24 +13,24 @@ const db = manager.getDb();
 
 
 // Export core attribute operations
-module.exports = {
-    // Initialize database
-    initializeDatabase,
+// module.exports = {
+//     // Initialize database
+//     // initializeDatabase,
 
-    // CRUD operations
-    createAttribute: require('./attribute').createAttribute,
-    getAttributeById: require('./attribute').getAttributeById,
-    getAttributesByName: require('./attribute').getAttributesByName,
-    updateAttribute: require('./attribute').updateAttribute,
-    deleteAttribute: require('./attribute').deleteAttribute,
+//     // CRUD operations
+//     createAttribute: require('./attribute').createAttribute,
+//     getAttributeById: require('./attribute').getAttributeById,
+//     getAttributesByName: require('./attribute').getAttributesByName,
+//     updateAttribute: require('./attribute').updateAttribute,
+//     deleteAttribute: require('./attribute').deleteAttribute,
     
-    // Utility functions
-    getAttributesByType: require('./attribute').getAttributesByType,
-    validateAttribute: require('./attribute').validateAttribute,
+//     // Utility functions
+//     getAttributesByType: require('./attribute').getAttributesByType,
+//     validateAttribute: require('./attribute').validateAttribute,
     
-    // Transaction management
-    runInTransaction: function(callback) {
-        const transaction = db.transaction(callback);
-        return transaction();
-    }
-};
+//     // Transaction management
+//     runInTransaction: function(callback) {
+//         const transaction = db.transaction(callback);
+//         return transaction();
+//     }
+// };
