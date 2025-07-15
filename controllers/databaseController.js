@@ -1,5 +1,4 @@
 // import statements
-const notion = require('../config/notionClient');
 const {paginateQuery, flattenPropertyValue} = require('../utils/notionUtils');
 
 // matches database names to Notion database IDs

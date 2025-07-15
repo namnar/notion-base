@@ -9,6 +9,8 @@
 const dbForm = document.getElementById("databaseForm");
 const dbResponseEl = document.getElementById("dbResponse");
 
+const testForm = document.getElementById("databaseTest");
+
 /**************************************************************
  * 2. HELPER FUNCTIONS
  **************************************************************/
@@ -66,4 +68,28 @@ dbForm.onsubmit = async function (event) {
   console.log(newDBData);
 
   // appendApiResponse(newDBData, dbResponseEl)
+}
+
+testForm.onsubmit = async function (event) {
+  console.log('submitted form');
+  event.preventDefault();
+  const databaseID = document.getElementById("databaseId").value;
+  const testQuery = document.getElementById("testQuery").value;
+  const testFilter = document.getElementById("testFilter").value;
+
+  const body = JSON.stringify({
+    databaseId: databaseID,
+    query: testQuery,
+    filter: testFilter
+  })
+
+  const newDBResponse = await fetch("/databases/test", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body,
+  });
+  const newDBData = await newDBResponse.json();
+  console.log("finished test await");
+  console.log(newDBData);
+
 }

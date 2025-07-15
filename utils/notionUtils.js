@@ -28,6 +28,11 @@ async function paginateQuery(body){
 }
 
 
+//get information about database (including properties informaiton)
+async function getDatabaseInfo(databaseId){
+    return await notion.databases.retrieve({database_id: databaseId});
+}
+
 
 /**
  * Helper function to flatten Notion property values
@@ -147,6 +152,7 @@ async function getRelationTitles(relationIds) {
 // Export all utility functions
 module.exports = {
     paginateQuery,
+    getDatabaseInfo,
     flattenPropertyValue,
     formatNotionDate,
     getMultiSelectValues,
