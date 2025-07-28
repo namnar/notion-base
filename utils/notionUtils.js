@@ -40,7 +40,8 @@ async function getDatabaseInfo(databaseId){
  * @returns {string|null} The flattened value or null if not found
  */
 async function flattenPropertyValue(propertyValue) {
-    if (!propertyValue) return null;
+    if (!propertyValue || propertyValue == {}) {
+        return null;}
 
     const type = propertyValue.type;
     switch(type) {
@@ -51,8 +52,12 @@ async function flattenPropertyValue(propertyValue) {
             return relationIds.map(rid => ({id: rid, title: titles[rid]})); //returns {id, title} object --could also be expanded to include database id
         case 'title':
             return propertyValue.title[0]?.text?.content || null;
+        case 'text':
+            return propertyValue.text[0]?.text?.content || null;
         case 'rich_text':
-            return propertyValue.rich_text[0]?.text?.content || null;
+            const firstItem = propertyValue.rich_text[0];
+            const content = firstItem?.text?.content;
+            return content || null;
         case 'number':
             return propertyValue.number || null;
         case 'select':
@@ -77,7 +82,7 @@ async function flattenPropertyValue(propertyValue) {
             const selectData = propertyValue.rollup.array[0];
             return flattenPropertyValue(selectData);
         default:
-            return propertyValue || null;
+            return null;
     }
 }
 
@@ -118,6 +123,20 @@ function flattenNotionProperties(properties, requiredProperties) {
         if (properties[property]) {
             result[property] = flattenPropertyValue(properties[property]);
         }
+    });
+    return result;
+}
+
+
+/**
+ * Helper function to convert Notion properties to a flat object
+ * @param {Object} properties - The Notion properties object
+ * @returns {Object} Flattened object with all properties
+ */
+function flattenAllNotionProperties(properties) {
+    const result = {};
+    properties.forEach(property => {
+        result[property] = flattenPropertyValue(properties[property]);
     });
     return result;
 }
