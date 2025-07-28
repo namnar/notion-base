@@ -36,58 +36,49 @@ async function getDatabaseInfo(databaseId){
 
 /**
  * Helper function to flatten Notion property values
- * @param {Object} propertyValue - The Notion property value to flatten
+ * @param {Object} propertyValue - The Notion property value object to flatten
  * @returns {string|null} The flattened value or null if not found
  */
 async function flattenPropertyValue(propertyValue) {
     if (!propertyValue) return null;
 
-    //special case
-    if (propertyValue.relation){
-        const relationIds = propertyValue.relation.map(r => r.id);
-        const titles = await getRelationTitles(relationIds);
-        
-        return propertyValue.relation.map(relation => ({
-            id: relation.id,
-            title: titles[relation.id]
-        }));
+    const type = propertyValue.type;
+    switch(type) {
+        case 'relation':
+            const relationIds = propertyValue.relation.map(r => r.id); //creates an array of just the IDs
+            const titles = await getRelationTitles(relationIds);
+
+            return relationIds.map(rid => ({id: rid, title: titles[rid]})); //returns {id, title} object --could also be expanded to include database id
+        case 'title':
+            return propertyValue.title[0]?.text?.content || null;
+        case 'rich_text':
+            return propertyValue.rich_text[0]?.text?.content || null;
+        case 'number':
+            return propertyValue.number || null;
+        case 'select':
+            return propertyValue.select?.name || null;
+        case 'multi_select':
+            return propertyValue.multi_select.map(select => select.name).join(', ') || null;
+        case 'date':
+            return propertyValue.date?.start || null;
+        case 'last_edited_time':
+            return propertyValue.last_edited_time || null;
+        case 'created_time':
+            return propertyValue.created_time || null;
+        case 'checkbox':
+            return propertyValue.checkbox || null;
+        case 'status':
+            return propertyValue.status.name || null;
+        case 'email':
+            return propertyValue.email || null;
+        case 'phone_number':
+            return propertyValue.phone_number || null;
+        case 'rollup':
+            const selectData = propertyValue.rollup.array[0];
+            return flattenPropertyValue(selectData);
+        default:
+            return propertyValue || null;
     }
-    
-    if (propertyValue.title) {
-        return propertyValue.title[0]?.text?.content || null;
-    }
-    if (propertyValue.rich_text) {
-        return propertyValue.rich_text[0]?.text?.content || null;
-    }
-    if (propertyValue.number) {
-        return propertyValue.number.toString();
-    }
-    if (propertyValue.select) {
-        return propertyValue.select?.name || null;
-    }
-    if (propertyValue.multi_select) {
-        return propertyValue.multi_select.map(select => select.name).join(', ') || null;
-    }
-    if (propertyValue.date) {
-        return propertyValue.date?.start || null;
-    }
-    if (propertyValue.checkbox) {
-        return propertyValue.checkbox.toString();
-    }
-    if (propertyValue.relation) {
-        return propertyValue.relation.map(relation => ({
-            id: relation.id,
-            title: relation.title?.[0]?.text?.content || relation.name || null
-        }));
-    }
-    if (propertyValue.rollup) {
-        const selectData = propertyValue.rollup.array[0];
-        return flattenPropertyValue(selectData);
-    }
-    //special cases where the property value is a reference to another entry
-    //special case where the property value is an array (of possibly references)
-    
-    return propertyValue;
 }
 
 /**

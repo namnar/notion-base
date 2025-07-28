@@ -28,7 +28,9 @@ const handleTestQuery = async (req, res) => {
             return res.json({message: "Success!", data: dbinfo});
         }
         else { //if (query == 'getPages')
-            const pages = await paginateQuery({database_id: databaseId, filter: filter, page_size: 100});
+            const parsedFilter = typeof filter === 'string' ? JSON.parse(filter) : filter;
+            // const pages = await paginateQuery({database_id: databaseId, filter: filter, page_size: 100});
+            const pages = await paginateQuery({database_id: databaseId, filter: parsedFilter, page_size: 100});
             return res.json({message: "Success!", data: pages});
         }
     }

@@ -1,11 +1,13 @@
 
-const dbManager = require('manager.js');
-const db = dbManager.getDb();
+// Import database instance for attribute operations
+const {db} = require('./manager.js');
 
 //CRUD operations
 
 //CREATE
-
+function createAttribute(dbInfo){
+    
+}
 //READ -- get attributes by id, name, description
 
 //UPDATE -- name, description
