@@ -1,5 +1,6 @@
+const { getPage } = require('@notionhq/client/build/src/api-endpoints.js');
 const notion = require('../config/notionClient.js');
-const {paginateQuery, getDatabaseInfo} = require('../utils/notionUtils.js');
+const {paginateQuery, getDatabaseInfo, getPageFromId} = require('../utils/notionUtils.js');
 
 
 
@@ -16,6 +17,7 @@ const {paginateQuery, getDatabaseInfo} = require('../utils/notionUtils.js');
 // };
 
 
+
 // Handle test queries
 const handleTestQuery = async (req, res) => {
     const { query, databaseId, filter } = req.body;
@@ -26,6 +28,11 @@ const handleTestQuery = async (req, res) => {
             const dbinfo = await getDatabaseInfo(databaseId);
             console.log(dbinfo);
             return res.json({message: "Success!", data: dbinfo});
+        }
+        else if (query == 'getPageFromId'){
+            console.log('entered getPageFromId');
+            const page = await getPageFromId(filter);
+            return res.json({message: "Success!", data: page});
         }
         else { //if (query == 'getPages')
             const parsedFilter = typeof filter === 'string' ? JSON.parse(filter) : filter;

@@ -125,6 +125,8 @@ describe('flattenPropertyValue', () => {
         expect(await flattenPropertyValue(richText)).toBe("calls init from parent class to contribute to own fields");
     });
 
+    
+    
     // // Relation test (already async)
     // test("flattenPropertyValue for relation", async () => {
     //     const mockGetRelationTitles = jest.fn().mockResolvedValue({
@@ -324,4 +326,32 @@ describe('flattenPropertyValue', () => {
         //     expect(await flattenPropertyValue(noType)).toBeNull();
         // });
     });
+});
+
+
+describe('testing asynchronous module dependant relation part of flattenPropertyValue function', ()=>{
+    //flatten relation property: get its id and then make a secondary call to get the related page's title
+
+    //response to inquiry on name
+    test("testing actual notion api response for relation id and title", async ()=>{
+
+        const relation = JSON.parse(`{
+            "id": "wbDR",
+            "type": "relation",
+            "relation": [
+                {
+                    "id": "174e18d1-72c3-802d-97f4-fb7c45b023ee"
+                }
+            ],
+            "has_more": false
+        }`);
+
+        expect(await flattenPropertyValue(relation)).toEqual(
+            [{id: "174e18d1-72c3-802d-97f4-fb7c45b023ee", title: ""}]
+        );
+
+    });
+
+
+
 });

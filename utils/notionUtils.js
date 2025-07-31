@@ -86,6 +86,12 @@ async function flattenPropertyValue(propertyValue) {
     }
 }
 
+
+async function getPageFromId(pId){
+    const page = await notion.pages.retrieve({ page_id: pId });
+    return page;
+}
+
 /**
  * Helper function to convert Notion date format to ISO string
  * @param {Object} notionDate - The Notion date object
@@ -163,6 +169,7 @@ async function getRelationTitles(relationIds) {
 module.exports = {
     paginateQuery,
     getDatabaseInfo,
+    getPageFromId,
     flattenPropertyValue,
     formatNotionDate,
     getMultiSelectValues,
