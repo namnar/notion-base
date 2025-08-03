@@ -46,10 +46,20 @@ async function flattenPropertyValue(propertyValue) {
     const type = propertyValue.type;
     switch(type) {
         case 'relation':
-            const relationIds = propertyValue.relation.map(r => r.id); //creates an array of just the IDs
-            const titles = await getRelationTitles(relationIds);
-
-            return relationIds.map(rid => ({id: rid, title: titles[rid]})); //returns {id, title} object --could also be expanded to include database id
+            if (!propertyValue.hasMore){ //less than 25 relations
+                const relationIds = propertyValue.relation.map(r => r.id); //creates an array of just the IDs
+                const titles = await getRelationTitles(relationIds);
+                return relationIds.map(rid => ({id: rid, title: titles[rid]})); //returns {id, title} object --could also be expanded to include database id
+            }
+            else{ //too many relations to fit in 1 query (over 25)
+                //get database ID
+                //query database (using paginateQuery) for each entry in the db that references the DB
+                console.log("Over 25 relations in this property. Will only return 25 currently.");
+                const relationIds = propertyValue.relation.map(r => r.id); //creates an array of just the IDs
+                const titles = await getRelationTitles(relationIds);
+                return relationIds.map(rid => ({id: rid, title: titles[rid]})); 
+            }
+            
         case 'title':
             return propertyValue.title[0]?.text?.content || null;
         case 'text':

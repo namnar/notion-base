@@ -6,6 +6,7 @@ const {db} = require('./manager.js');
 
 //CREATE
 function createAttribute(dbInfo){
+    //check db if attribute entry exists
     
 }
 //READ -- get attributes by id, name, description

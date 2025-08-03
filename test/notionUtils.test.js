@@ -107,7 +107,7 @@ test("trying out explanation.rich_text[0].text.content", ()=>{
 
 
 
-const { flattenPropertyValue, flattenAllNotionProperties } = require("../utils/notionUtils");
+const { flattenPropertyValue, flattenAllNotionProperties, flattenNotionProperties } = require("../utils/notionUtils");
 
 describe('flattenPropertyValue', () => {
     // Existing rich_text test (already async)
@@ -335,7 +335,7 @@ describe('testing asynchronous module dependant relation part of flattenProperty
     //response to inquiry on name
     test("testing actual notion api response for relation id and title", async ()=>{
 
-        const relation = JSON.parse(`{
+        const relation = {
             "id": "wbDR",
             "type": "relation",
             "relation": [
@@ -344,14 +344,101 @@ describe('testing asynchronous module dependant relation part of flattenProperty
                 }
             ],
             "has_more": false
-        }`);
+        };
 
         expect(await flattenPropertyValue(relation)).toEqual(
-            [{id: "174e18d1-72c3-802d-97f4-fb7c45b023ee", title: ""}]
+            [{id: "174e18d1-72c3-802d-97f4-fb7c45b023ee", title: "Default (Python)"}]
         );
 
     });
 
+    const multipleRelations = {
+        "id": "o%7Cwp",
+        "type": "relation",
+        "relation": [
+            {
+                "id": "16ae18d1-72c3-8058-a2a0-f87097f03c53"
+            },
+            {
+                "id": "16ae18d1-72c3-8042-ae4c-d5df5299f57d"
+            },
+            {
+                "id": "17ee18d1-72c3-80b9-9e14-f4177c2f3cfb"
+            },
+            {
+                "id": "17ee18d1-72c3-8039-81ff-fded4123e480"
+            },
+            {
+                "id": "17ee18d1-72c3-80f3-962a-e5c44bf31520"
+            },
+            {
+                "id": "17ee18d1-72c3-80db-bf14-c388c622c954"
+            },
+            {
+                "id": "186e18d1-72c3-8073-836d-dbd8c660dac3"
+            },
+            {
+                "id": "186e18d1-72c3-80be-b514-c7d1709750ed"
+            },
+            {
+                "id": "186e18d1-72c3-809c-abc2-e0d44f63662a"
+            },
+            {
+                "id": "186e18d1-72c3-80f0-8b1f-e2917bd04e6d"
+            },
+            {
+                "id": "196e18d1-72c3-80fb-a889-e7e6716ffcb8"
+            },
+            {
+                "id": "196e18d1-72c3-803c-8813-c3fb7007a6ac"
+            },
+            {
+                "id": "196e18d1-72c3-80bc-980d-e809952e7175"
+            },
+            {
+                "id": "199e18d1-72c3-8036-a9d8-c50dfbb7d3b2"
+            },
+            {
+                "id": "199e18d1-72c3-8014-88c8-c1506468ce72"
+            },
+            {
+                "id": "199e18d1-72c3-8040-bb05-ebefe016f6ec"
+            },
+            {
+                "id": "199e18d1-72c3-8084-801b-f1da72342de2"
+            },
+            {
+                "id": "199e18d1-72c3-80ab-83e4-fb0382047069"
+            },
+            {
+                "id": "199e18d1-72c3-80dd-b6ff-f3c01e7fb591"
+            },
+            {
+                "id": "1a6e18d1-72c3-80e2-87b0-d62aad42be29"
+            },
+            {
+                "id": "1a6e18d1-72c3-804b-bb2a-c52e7d48c90c"
+            },
+            {
+                "id": "1a6e18d1-72c3-800c-8dde-db41ee3a7fc6"
+            },
+            {
+                "id": "1a6e18d1-72c3-8061-b31c-d38f0e686f5f"
+            },
+            {
+                "id": "1a6e18d1-72c3-804f-bf3f-ebdda1148acc"
+            },
+            {
+                "id": "1a6e18d1-72c3-8087-b95c-dfad27c9b05d"
+            }
+        ],
+        "has_more": true
+    };
 
+    test("actual notion api response for a list of relations", async ()=>{
+        const result = await flattenPropertyValue(multipleRelations);
+        console.log(result);
+        expect(result).toEqual('uh oh');  
+    }, 10000000);
 
 });
