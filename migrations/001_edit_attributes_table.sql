@@ -11,8 +11,8 @@ CREATE TABLE attributes (
 );
 
 
-INSERT INTO attributes (id,  notion_id, entity_type, data_type, source_db) 
-SELECT id, notion_id, entity_type, data_type, source_db FROM attributes_old;
+INSERT INTO attributes (id, entity_type, data_type, source_db) 
+SELECT id, entity_type, data_type, source_db FROM attributes_old;
 
 
 DROP TABLE attributes_old;
