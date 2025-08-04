@@ -16,15 +16,16 @@ CREATE TABLE entities (
     created_at datetime, 
     last_updated datetime,
     last_synced datetime,
+    resolved boolean DEFAULT true,
     FOREIGN KEY (source_db) REFERENCES db_metadata(db_id)
 );
 
 CREATE TABLE attributes (
     id varchar(50) NOT NULL PRIMARY KEY,
     name varchar(100),
-    entity_type varchar(50),
-    data_type varchar(50),
-    description TEXT
+    notion_id varchar(50) NOT NULL,
+    source_db varchar(100) NOT NULL,
+    FOREIGN KEY (source_db) REFERENCES db_metadata(db_id)
 );
 
 CREATE TABLE entity_values (
